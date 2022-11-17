@@ -45,6 +45,18 @@ int agun_switch = 0;
 int rotating_switch_for_store2 = -1,fence_gate_switch = -1;
 float rotatingVariableForStore2 = 0 , fence_gate_slide = 0;
 
+int train_switch =0;
+float train_movement = 20.0, train_wheel_movement = 0.0;
+
+int train_gate_switch = 1;
+float train_gate_movement = 0.0;
+
+int ferris_wheel_switch =0;
+float ferris_wheel_movement = 0.0;
+
+int sun_structure = 19;
+
+
 static void resize(int width, int height)
 {
     const float ar = (float) height / (float) width;
@@ -396,33 +408,224 @@ void draw_room()
 double ftheta = 0;
 bool frotate=0;
 
+void draw_cube(GLfloat r, GLfloat g,GLfloat b)
+{
+
+//    r = r/255.0;
+//    g = g/255.0;
+//    b = b/255.0;
+
+    GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat mat_ambient[] = { r, g, b, 1.0 };
+    GLfloat mat_diffuse[] = { r, g, b, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {60};
+
+    GLfloat mat_em[] = {1.0,1.0,1.0,1.0};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
+    glutSolidCube(1);
+
+}
+
+void draw_sphere(GLfloat r, GLfloat g,GLfloat b)
+{
+
+//    r = r/255.0;
+//    g = g/255.0;
+//    b = b/255.0;
+
+    GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat mat_ambient[] = { r, g, b, 1.0 };
+    GLfloat mat_diffuse[] = { r, g, b, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {60};
+
+    GLfloat mat_em[] = {1.0,1.0,1.0,1.0};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
+    glutSolidSphere(1,10,10);
+
+}
+
+void seat()
+{
+    glPushMatrix();
+    glScalef(3,0.5,3);
+    draw_cube(0.98,0.969,0.784);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0,1.8,-1.5);
+    glScalef(3,4,0.5);
+    draw_cube(0.98,0.969,0.784);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(1.5,1.5,0);
+    glRotatef(-45,1,0,0);
+    glScalef(0.3,4,0.3);
+    draw_cube(0,0,0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-1.5,1.5,0);
+    glRotatef(-45,1,0,0);
+    glScalef(0.3,4,0.3);
+    draw_cube(0,0,0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0,1.5,0);
+    glScalef(3,0.3,0.3);
+    draw_cube(0,0,0);
+    glPopMatrix();
+}
+
+void ferris_wheel_seat()
+{
+    //chair
+    glPushMatrix();
+    glTranslatef(10,0,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-10,0,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+
+    glPushMatrix();
+    glTranslatef(0,10,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0,-10,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(7,7,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-7,7,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-7,-7,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(7,-7,1);
+    glRotatef(90,1,0,0);
+    glScalef(0.8,0.8,0.8);
+    seat();
+    glPopMatrix();
+}
+
+
+
+
+
+void chorkir_ghura()
+{
+    for (int i =0;i<=360;i+=45){
+        glPushMatrix();
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D,16);
+        glTranslatef(1,22,11);
+        glRotatef(ftheta, 0, 0, 1);
+        glRotatef(i, 0, 0, 1);
+        glScalef(4,.5,.5);
+
+        draw_house_cube();
+        glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
+
+
+    }
+
+    glPushMatrix();
+    glTranslatef(1,22,10);
+    glRotatef(ftheta,0,0,1);
+    glScalef(.8,.8,1);
+    ferris_wheel_seat();
+    glPopMatrix();
+//    glPushMatrix();
+//    glTranslatef(1,15,11);
+//    seat();
+//    glPopMatrix();
+
+
+
+
+
+}
+
 void draw_chorki()
 {
     glPushMatrix();
-    glScalef(1,10,1);
-    draw_house_cube(1, 1, 1);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glScalef(1,10,0);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
     glPushMatrix();
-//    glTranslatef();
-//    glTranslatef(0,40,0);
-    glTranslatef(0,20,0);
-    glRotatef(ftheta, 0, 0, 1);
-    glTranslatef(0,-20,0);
-
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(1,20,0);
+    glRotatef(ftheta,0,0,1);
+    glScalef(4,2,2);
+    draw_sphere(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
     glPushMatrix();
-    glTranslatef(-8,20,0);
-    glScalef(8,.5,.5);
-    draw_house_cube(1, 0, 0);
+
+    glRotatef(ftheta,0,1,0);
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(0,18,0);
+    glScalef(1,1,-5);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
+
     glPushMatrix();
-    glTranslatef(0.3,12,0);
-    glRotatef(90,0,0,1);
-    glScalef(8,.5,.5);
-    draw_house_cube(1, 0, 0);
+    chorkir_ghura();
     glPopMatrix();
-//eta ki extra?
+
     glPopMatrix();
 
 }
@@ -430,45 +633,45 @@ void draw_chorki()
 
 
 
-void draw_chorki_box()
-{
-    glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,10);
-    glScalef(3,3,3);
-    glTranslatef(1.5,4,1);
-    draw_house_cube();
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
-
-    glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,10);
-    glScalef(3,3,3);
-    glTranslatef(-3.5, 4, 1);
-    draw_house_cube();
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
-
-    glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,10);
-    glScalef(3,3,3);
-    glTranslatef(-1.2, 1.5, 1);
-    draw_house_cube();
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
-
-    glPushMatrix();
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,10);
-    glScalef(3,3,3);
-    glTranslatef(-1.2, 6.5, 1);
-    draw_house_cube();
-    glDisable(GL_TEXTURE_2D);
-    glPopMatrix();
-
-}
+//void draw_chorki_box()
+//{
+//    glPushMatrix();
+//    glEnable(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D,10);
+//    glScalef(3,3,3);
+//    glTranslatef(1.5,4,1);
+//    draw_house_cube();
+//    glDisable(GL_TEXTURE_2D);
+//    glPopMatrix();
+//
+//    glPushMatrix();
+//    glEnable(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D,10);
+//    glScalef(3,3,3);
+//    glTranslatef(-3.5, 4, 1);
+//    draw_house_cube();
+//    glDisable(GL_TEXTURE_2D);
+//    glPopMatrix();
+//
+//    glPushMatrix();
+//    glEnable(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D,10);
+//    glScalef(3,3,3);
+//    glTranslatef(-1.2, 1.5, 1);
+//    draw_house_cube();
+//    glDisable(GL_TEXTURE_2D);
+//    glPopMatrix();
+//
+//    glPushMatrix();
+//    glEnable(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D,10);
+//    glScalef(3,3,3);
+//    glTranslatef(-1.2, 6.5, 1);
+//    draw_house_cube();
+//    glDisable(GL_TEXTURE_2D);
+//    glPopMatrix();
+//
+//}
 
 void draw_agun()
 {
@@ -480,6 +683,7 @@ void draw_agun()
     glutSolidCone(5,2,20,10);
     glDisable(GL_TEXTURE_2D);
     glPopMatrix();
+
 
     glPushMatrix();
     glEnable(GL_TEXTURE_2D);
@@ -887,22 +1091,29 @@ double khelna_ang = 0;
 void draw_khelna()
 {
     glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glScalef(3,3,3);
     glRotatef(-90,0,1,0);
 //    glTranslatef(-1.2, 6.5, 1);
     draw_pyramid();
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
     glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glTranslatef(0,0,6);
     glScalef(3,3,3);
     glRotatef(90,0,1,0);
 //    glTranslatef(-1.2, 6.5, 1);
     draw_pyramid();
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
     glPushMatrix();
-
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,4);
     glTranslatef(0,6,0);
     glRotatef(khelna_ang,0,0,1);
     glTranslatef(0,-6,0);
@@ -913,8 +1124,200 @@ void draw_khelna()
 //    glRotatef(khelna_ang,0,0,1);
 //    glRotatef(90,0,1,0);
 //    glTranslatef(-1.2, 6.5, 1);
-    draw_house_cube(1,1,1);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
     glPopMatrix();
+
+}
+
+
+void drawcylinder(GLfloat r=.3,
+          GLfloat g=.4,
+          GLfloat b=.5,
+          GLboolean emission = false, GLfloat base=2, GLfloat top=2, GLfloat height=5) {
+
+    GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat mat_ambient[] = { r, g, b, 1.0 };
+    GLfloat mat_diffuse[] = { r, g, b, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {60};
+
+    GLfloat mat_em[] = {1.0,1.0,1.0,1.0};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
+    if(emission) glMaterialfv( GL_FRONT, GL_EMISSION, mat_em);
+    else glMaterialfv( GL_FRONT, GL_EMISSION, no_mat);
+
+    GLUquadric* qobj;
+    qobj = gluNewQuadric();
+//    gluCylinder(qobj,2,2,5,20,10);
+    gluCylinder(qobj,base,top,height,20,10);
+//    gluCylinder();
+}
+
+
+
+
+void draw_railline()
+{
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+//    glTranslatef(-1.2, 6.5, 1);
+    glScalef(1.2,.8,7);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(-3,0,0);
+    glScalef(4,.8,.8);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(-3,0,-14);
+    glScalef(4,.8,.8);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+}
+
+void draw_train()
+{
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,11);
+    glTranslatef(0, 5, 6);
+    glScalef(20,5,1);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,11);
+    glTranslatef(0, 5, 20);
+    glScalef(5,5,1);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,11);
+    glTranslatef(20, 5, 20);
+    glScalef(10,5,1);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+//    dorja
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,12);
+    glTranslatef(10, 5, 20);
+    glRotatef(train_gate_movement,0,1,0);
+    glScalef(5,5,1);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,14);
+    glTranslatef(-3, 5, 20);
+    glScalef(2,5,8);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,14);
+    glTranslatef(40, 5, 20);
+    glScalef(2,5,8);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(0, 15, 20);
+    glScalef(20,1,8);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    //nicher part
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,13);
+    glTranslatef(0, 4, 20);
+    glScalef(20,1,8);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    //ekhan theke chaka
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(5, 5, 20);
+    glRotatef(train_wheel_movement/25,1,0,0);
+    glRotatef(train_wheel_movement,0,0,1);
+//    glRotatef(90, 1, 0, 0 );
+    glScalef(2, 2, .5);
+    drawcylinder( .5,.5,.5,false,2,1,3);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(35, 5, 20);
+    glRotatef(train_wheel_movement/25,1,0,0);
+    glRotatef(train_wheel_movement,0,0,1);
+//    glRotatef(90, 1, 0, 0 );
+    glScalef(2, 2, .5);
+    drawcylinder( .5,.5,.5,false,2,1,3);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(5, 5, 4);
+    glRotatef(-train_wheel_movement/25,1,0,0);
+    glRotatef(train_wheel_movement,0,0,1);
+    glRotatef(180, 1, 0, 0 );
+    glScalef(2, 2, .5);
+    drawcylinder( .5,.5,.5,false,2,1,3);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(35, 5, 4);
+    glRotatef(-train_wheel_movement/25,1,0,0);
+    glRotatef(train_wheel_movement,0,0,1);
+    glRotatef(180, 1, 0, 0 );
+    glScalef(2, 2, .5);
+    drawcylinder( .5,.5,.5,false,2,1,3);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
 
 }
 
@@ -955,8 +1358,8 @@ void light2()
     GLfloat light_ambient[]  = {1.0, 1.0, 1.0, 1.0};
     GLfloat light_diffuse[]  = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_spot[] = {0,-1.0,0.0}; // direction
-    GLfloat light_position[] = { 5,25.0,0.0, 1.0 };
+    GLfloat light_spot[] = {20, 15, -30}; // direction
+    GLfloat light_position[] = {150, 135,-90};
 //    GLfloat light_position[] = { 8, -4, -55.0, 1.0 };
 
 
@@ -982,6 +1385,252 @@ void light2()
 
 
 
+
+void ferris_wheel(float r, float g, float b)
+{
+    glPushMatrix();
+    glPushMatrix();
+    glScalef(0.8,0.8,0.6);
+    draw_sphere(r,g,b);
+    glPopMatrix();
+    GLUquadricObj *p = gluNewQuadric();
+    //gluQuadricDrawStyle(GLU__LINE);
+    gluCylinder(p,2,2,1,100,100);
+    glPushMatrix();
+    glScalef(0.2,4,0.2);
+    draw_cube(r,g,b);
+    glPopMatrix();
+
+    int theta_temp=90;
+    for(int i=1; i<=3; i++)
+    {
+        glPushMatrix();
+        glRotatef(theta_temp,0,0,1);
+        glScalef(0.2,4,0.2);
+        draw_cube(r,g,b);
+        glPopMatrix();
+        theta_temp-=45;
+    }
+    glPopMatrix();
+
+
+}
+
+void ferris_wheel_stand()
+{
+    glPushMatrix();
+    glTranslatef(5,0,0);
+    glRotatef(30,0,0,1);
+    glScalef(0.5,10,1);
+    draw_cube(0.929,0.58,0.251);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(2.5,0,3);
+    glRotatef(-40,1,0,0);
+//    glRotatef(60,0,0,1);
+    glScalef(0.5,10,1);
+    draw_cube(0.929,0.58,0.251);
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(-30,0,0,1);
+    glScalef(0.5,10,1);
+    draw_cube(0.929,0.58,0.251);
+    glPopMatrix();
+}
+
+void draw_sp()
+{
+    glTranslatef(150,-30,-10);
+    glScalef(0.5,0.5,0.5);
+
+    // cout<<" kn "<<endl;
+
+
+
+    glPushMatrix();
+
+    GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat mat_ambient[] = { 0.1, .1, 0.1, 1.0 };
+    GLfloat mat_diffuse[] = { 0.5, 0.5, 0.5, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {40};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glBindTexture(GL_TEXTURE_2D, 17);
+
+    glPushMatrix();
+    glTranslatef(0, 0.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15, 3.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(30, 0.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(30, 1.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(25, 10.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(25, 10.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(20, 10.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(20, 11.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(5, 10.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(5, 10.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(20, 20.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+
+    glTranslatef(0,5,10);
+
+    glPushMatrix();
+    glTranslatef(0, 0.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(15, 0.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(30, 0.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(30, 0.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(25, 10.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(25, 10.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(20, 10.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(20, 10.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(5, 10.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(5, 10.0, 5.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(20, 20.0, 0.0);
+    glutSolidSphere(10.0, 50, 50);
+    glPopMatrix();
+
+    glPopMatrix();
+
+
+//    for(double i=60; i>=0; i-=2)
+//    {
+//        for(double j = 0; j<i; j+=5)
+//        {
+//
+//            for(double k=0; k<j; k+=7)
+//            {
+//
+//                glPushMatrix();
+//                glTranslatef(i, -j, k);
+//                glutSolidSphere(10.0, 50, 50);
+//                glPopMatrix();
+//            }
+//        }
+//    }
+
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+
+    glDisable(GL_TEXTURE_2D);
+
+
+    glPopMatrix();
+
+}
+
+void draw_tree()
+{
+
+    glTranslatef(10,-20,-80);
+    glScalef(1.5,1.5,1.5);
+    glScalef(2.5,3.5,2.5);
+
+    glPushMatrix();
+    glTranslatef(-100,50,0);
+    draw_sp();
+    glPopMatrix();
+
+    glPushMatrix();
+
+    GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat mat_ambient[] = { 0.2, 0.2, 0.2, 1.0 };
+    GLfloat mat_diffuse[] = { .5, .5, 0.5, 1.0 };
+    GLfloat mat_specular[] = { 1, 1, 1, 1.0 };
+    GLfloat mat_shininess[] = {30};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+    glTranslatef(56,4,-4);
+    glScalef(2, 10, 2);
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 18);
+    draw_house_cube();
+    //draw_color_cube(0,1,1);
+    glDisable(GL_TEXTURE_2D );
+    glPopMatrix();
+}
+
 void draw_every()
 {
     draw_room();
@@ -994,10 +1643,9 @@ void draw_every()
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-0.6,15,0);
-    glRotatef(ftheta,0,0,1);
-    glTranslatef(0.6,-15,0);
-    draw_chorki_box();
+//    glTranslatef(-0.6,15,0);
+//    glRotatef(ftheta,0,0,1);
+//    glTranslatef(0.6,-15,0);
     glPopMatrix();
     glPopMatrix();
 
@@ -1040,6 +1688,80 @@ void draw_every()
     glTranslatef(-50,0,-50);
     draw_fence();
     glPopMatrix();
+
+
+    for (int i=-40;i<=70;i+=8){
+        glPushMatrix();
+        glTranslatef(i,0,20);
+        draw_railline();
+        glPopMatrix();
+    }
+
+    glPushMatrix();
+    glTranslatef(train_movement,0,0);
+    draw_train();
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(42,10,50);
+    glRotatef(ferris_wheel_movement,0,1,0);
+    glRotatef(90,1,0,0);
+    glScalef(5,5,5);
+    ferris_wheel(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,16);
+    glTranslatef(40,4,50);
+    glScalef(1,1,1);
+    ferris_wheel_stand();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(42,10,50);
+    glRotatef(ferris_wheel_movement,0,1,0);
+    glRotatef(-90,1,0,0);
+    glScalef(1,1,1);
+    ferris_wheel_seat();
+
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-100,0,0);
+    glScalef(.2,.2,.2);
+    draw_tree();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-110,0,0);
+    glScalef(.2,.2,.2);
+    draw_tree();
+    glPopMatrix();
+
+    for (int i =-110;i<=90;i+=30){
+        glPushMatrix();
+        glTranslatef(i,0,-60);
+        glScalef(.2,.2,.2);
+        draw_tree();
+        glPopMatrix();
+    }
+
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,sun_structure);
+    glTranslatef(100, 95, -90);
+    glScalef(.5,.5,.5);
+    glutSolidSphere(10.0, 50, 50);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+
 
 
 
@@ -1198,11 +1920,18 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         break;
     case 'k':
         light_switch0=!light_switch0;
+        if(sun_structure ==19){
+            sun_structure=20;
+        }
+        else if(sun_structure ==20){
+            sun_structure=19;
+        }
         //light0();
         glutPostRedisplay();
         break;
     case 'l':
         light_switch2=!light_switch2;
+
         //light0();
         glutPostRedisplay();
         break;
@@ -1315,6 +2044,36 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         }
         break;
 
+    case '1':
+        if (train_switch ==0)
+        {
+            train_switch =1;
+        }
+        else{
+            train_switch = 0;
+        }
+        break;
+
+    case '2':
+        if (train_gate_switch ==0)
+        {
+            train_gate_switch =1;
+        }
+        else{
+            train_gate_switch = 0;
+        }
+        break;
+
+    case '3':
+        if (ferris_wheel_switch ==0)
+        {
+            ferris_wheel_switch =1;
+        }
+        else{
+            ferris_wheel_switch = 0;
+        }
+        break;
+
 
 
     case 27:	// Escape key
@@ -1322,6 +2081,8 @@ void myKeyboardFunc( unsigned char key, int x, int y )
 
     }
 }
+
+
 
 
 void animate()
@@ -1374,6 +2135,45 @@ void animate()
         }
 
     }
+
+
+    if(train_switch ==1 )
+    {
+       if(train_movement >= -40.5 ){
+            train_movement -= .1;
+            train_wheel_movement +=1;
+        }
+    }
+
+    if(train_switch ==0 )
+    {
+       if(train_movement <= 20.5 ){
+            train_movement += .1;
+            train_wheel_movement -=1;
+        }
+    }
+
+    if(train_gate_switch ==0 )
+    {
+       if(train_gate_movement > -90.0 ){
+            train_gate_movement -= .1;
+        }
+    }
+
+    if(train_gate_switch ==1 )
+    {
+       if(train_gate_movement < 0.0 ){
+            train_gate_movement += .1;
+        }
+    }
+
+    if(ferris_wheel_switch ==1 )
+    {
+        ferris_wheel_movement += .1;
+
+    }
+
+
     glutPostRedisplay();
 
 
@@ -1424,6 +2224,16 @@ int main (int argc, char **argv)
     LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\book.bmp"); /// 8
     LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\vending.bmp"); /// 9
     LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\grill.bmp"); /// 10
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\train.bmp"); /// 11
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\traingate.bmp"); /// 12
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\trainseat.bmp"); /// 13
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\trainfront.bmp"); /// 14
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\steel.bmp"); /// 15
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\alu.bmp"); /// 16
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\leaf.bmp"); /// 17
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\root.bmp"); /// 18
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\sun.bmp"); /// 19
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\moon.bmp"); /// 20
 
 
 

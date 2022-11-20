@@ -56,6 +56,12 @@ float ferris_wheel_movement = 0.0;
 
 int sun_structure = 19;
 
+int raater_variable =0;
+
+float bird_wing =0.0;
+int bird_switch = 0;
+float bird_rotate = 0.0,bird_translate =0.0;
+
 
 static void resize(int width, int height)
 {
@@ -1321,6 +1327,153 @@ void draw_train()
 
 }
 
+void draw_star()
+{
+
+    for (int i=-20;i<=200;i+=10){
+        for (int j=-40;j<=300;j+=10){
+            glPushMatrix();
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D,21);
+            glTranslatef(i,0,j);
+            glScalef(.3,.3,.3);
+            draw_house_cube();
+            glDisable(GL_TEXTURE_2D);
+            glPopMatrix();
+        }
+
+
+    }
+
+}
+
+void cloud()
+{
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,21);
+    glScalef(10,3,10);
+    draw_house_cube();
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,21);
+    glTranslatef(-2,5,-8);
+    glScalef(5,5,15);
+    draw_sphere(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,21);
+    glTranslatef(20,5,-8);
+    glScalef(5,5,15);
+    draw_sphere(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,21);
+    glTranslatef(5,5,0);
+    glScalef(15,5,13);
+    draw_sphere(1,1,1);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,21);
+    glTranslatef(5,5,-10);
+    glScalef(15,5,13);
+    draw_sphere(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+}
+
+void pakhi()
+{
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,23);
+    glTranslatef(0,5,0);
+    glScalef(5,5,5);
+    draw_sphere(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,22);
+    glTranslatef(-8,5,0);
+    glRotatef(bird_wing,0,0,1);
+    glScalef(10,.8,4);
+    draw_cube(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+
+    glPushMatrix();
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,22);
+    glTranslatef(8,5,0);
+    glRotatef(bird_wing,0,0,1);
+    glScalef(10,.8,4);
+    draw_cube(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glPopMatrix();
+}
+
+void bunch_of_pakhi()
+{
+    glPushMatrix();
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-30,0,0);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(30,0,0);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0,0,-25);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0,0,25);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(35,0,-20);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-35,0,20);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-35,0,-40);
+    pakhi();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(35,0,-60);
+    pakhi();
+    glPopMatrix();
+
+
+}
+
 
 
 
@@ -1358,8 +1511,8 @@ void light2()
     GLfloat light_ambient[]  = {0.5, 0.5, 0.5, 1.0};
     GLfloat light_diffuse[]  = { 0.3, 0.3, 0.3, 1.0 };
     GLfloat light_specular[] = { 0.7, 0.7, 0.7, 1.0  };
-    GLfloat light_spot[] = {20, 15, -30}; // direction
-    GLfloat light_position[] = {150, 135,-90};
+    GLfloat light_spot[] = {train_movement-20, 0, 0}; // direction
+    GLfloat light_position[] = {train_movement, 0,0};
 //    GLfloat light_position[] = { 8, -4, -55.0, 1.0 };
 
 
@@ -1786,6 +1939,53 @@ void draw_every()
     glDisable(GL_TEXTURE_2D);
     glPopMatrix();
 
+    if(raater_variable ==1)
+    {
+        glPushMatrix();
+        glTranslatef(-70,100,-100);
+        draw_star();
+        glPopMatrix();
+    }
+
+    glPushMatrix();
+    glTranslatef(0,90,0);
+    cloud();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(70,90,0);
+    glScalef(3,1,2);
+    cloud();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(50,90,-80);
+    cloud();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(10,90,100);
+    glScalef(2,1,1);
+    cloud();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-60,90,50);
+    glScalef(2,1,5);
+    cloud();
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(bird_rotate,0,1,0);
+    glPushMatrix();
+    glTranslatef(bird_translate,60,0);
+    glScalef(.6,.4,.6);
+    bunch_of_pakhi();
+    glPopMatrix();
+    glPopMatrix();
+
+
+
 
 
 
@@ -1952,6 +2152,13 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         else if(sun_structure ==20){
             sun_structure=19;
         }
+
+        if (raater_variable ==0){
+            raater_variable=1;
+        }
+        else if (raater_variable ==1){
+            raater_variable=0;
+        }
         //light0();
         glutPostRedisplay();
         break;
@@ -2103,6 +2310,15 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         else{
             ferris_wheel_switch = 0;
         }
+
+    case '7':
+        if (bird_switch ==0)
+        {
+            bird_switch =1;
+        }
+        else{
+            bird_switch = 0;
+        }
         break;
 
 
@@ -2112,7 +2328,7 @@ void myKeyboardFunc( unsigned char key, int x, int y )
 
     }
 }
-
+int bird_reverse_ghurao = 0;
 
 
 
@@ -2204,6 +2420,32 @@ void animate()
 
     }
 
+    if (bird_switch ==1)
+    {
+        bird_rotate+=1;
+        if(bird_translate >=-70 && bird_translate <=70 && bird_reverse_ghurao ==0 ){
+            bird_translate +=0.5;
+        }
+        else if(bird_translate >70){
+            bird_reverse_ghurao =1;
+        }
+        else if(bird_translate >=-70 && bird_translate <=70 && bird_reverse_ghurao ==1 ){
+            bird_translate -=0.5;
+        }
+        else if(bird_translate <-70){
+            bird_reverse_ghurao =0;
+        }
+        if(bird_wing ==0){
+            bird_wing =20;
+        }
+        else if (bird_wing ==20){
+            bird_wing = -20;
+        }
+        else if(bird_wing==-20){
+            bird_wing =0 ;
+        }
+    }
+
 
     glutPostRedisplay();
 
@@ -2265,6 +2507,9 @@ int main (int argc, char **argv)
     LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\root.bmp"); /// 18
     LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\sun.bmp"); /// 19
     LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\moon.bmp"); /// 20
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\star.bmp"); /// 21
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\birdwing.bmp"); /// 22
+    LoadTexture("C:\\Users\\faias\\Desktop\\Cse 4-2\\Computer Graphics\\Lab\\village fair\\birdface.bmp"); /// 23
 
 
 

@@ -4,12 +4,8 @@
 	<ActiveTarget name="Debug" />
 	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="45436" topLine="1870" />
+			<Cursor1 position="49917" topLine="2196" />
 		</Cursor>
-		<Folding>
-			<Collapse line="306" />
-			<Collapse line="363" />
-		</Folding>
 	</File>
 	<File name="src\BmpLoader.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>

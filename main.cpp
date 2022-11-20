@@ -1324,7 +1324,7 @@ void draw_train()
 
 
 
-bool light_switch0 = 1, light_switch1 = 1, light_switch2 = 1;
+bool light_switch0 = 1, light_switch1 = 1, light_switch2 = 1,light_switch3=1;
 
 void light0()
 {
@@ -1355,9 +1355,9 @@ void light0()
 void light2()
 {
     GLfloat no_light[] = { 0.0, 0.0, 0.0, 1.0 };
-    GLfloat light_ambient[]  = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_diffuse[]  = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light_ambient[]  = {0.5, 0.5, 0.5, 1.0};
+    GLfloat light_diffuse[]  = { 0.3, 0.3, 0.3, 1.0 };
+    GLfloat light_specular[] = { 0.7, 0.7, 0.7, 1.0  };
     GLfloat light_spot[] = {20, 15, -30}; // direction
     GLfloat light_position[] = {150, 135,-90};
 //    GLfloat light_position[] = { 8, -4, -55.0, 1.0 };
@@ -1383,6 +1383,31 @@ void light2()
       glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 10.0); */
 }
 
+
+void light3()
+{
+    GLfloat no_light[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light_ambient[]  = {0.2, 0.2, 0.2, 0.5};
+    GLfloat light_diffuse[]  = { 0.3,0.3,0.3, 0.3 };
+    GLfloat light_specular[] = { 0.3,0.3,0.3, 0.3 };
+   // GLfloat light_position[] = { 10, 0.0, 50.0, 1.0 };
+    GLfloat light_position[] = { 50, 60, 20, 1.0 };
+   // GLfloat light_position[] = { 5,2,3, 0.0 };
+
+
+    if(light_switch3)
+    glEnable( GL_LIGHT3);
+    else
+    glDisable(GL_LIGHT3);
+    glLightfv( GL_LIGHT3, GL_AMBIENT, light_ambient);
+    glLightfv( GL_LIGHT3, GL_DIFFUSE, light_diffuse);
+    glLightfv( GL_LIGHT3, GL_SPECULAR, light_specular);
+    glLightfv( GL_LIGHT3, GL_POSITION, light_position);
+
+    /*  GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
+      glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
+      glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 10.0); */
+}
 
 
 
@@ -1789,6 +1814,7 @@ void display(void)
     glRotatef( theta, axis_x, axis_y, 0.0 );
     light0();
     light2();
+    light3();
 
     glScalef(1,1.8,1);
 
@@ -1935,16 +1961,21 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         //light0();
         glutPostRedisplay();
         break;
+    case '5':
+        light_switch3=!light_switch3;
 
+        //light0();
+        glutPostRedisplay();
+        break;
 
 
     case 'f':
         eyeZ++;
-        //lookZ++;
+        lookZ++;
         break;
     case 'g':
         eyeZ--;
-        //lookZ--;
+        lookZ--;
         break;
     case 'w':
         eyeY++;
@@ -2095,7 +2126,7 @@ void animate()
     }
      if (frotate == true)
     {
-        ftheta -= .1;
+        ftheta -= .3;
        // if(ftheta > 360.0)
          //   ftheta -= 360.0*floor(ftheta/360.0);
     }
@@ -2109,14 +2140,14 @@ void animate()
     if (rotating_switch_for_store2 == 1)
     {
         if(rotatingVariableForStore2 >= -90 && rotatingVariableForStore2 <=1){
-            rotatingVariableForStore2 -= .1;
+            rotatingVariableForStore2 -= .3;
         }
 
     }
      if (rotating_switch_for_store2 == 0)
     {
         if(rotatingVariableForStore2 <= 0 && rotatingVariableForStore2 >= -91){
-            rotatingVariableForStore2 += .1;
+            rotatingVariableForStore2 += .3;
         }
 
     }
@@ -2124,14 +2155,14 @@ void animate()
     if (fence_gate_switch == 1)
     {
         if(fence_gate_slide <=30 && fence_gate_slide >=-1){
-            fence_gate_slide += .1;
+            fence_gate_slide += .3;
         }
 
     }
      if (fence_gate_switch == 0)
     {
         if(fence_gate_slide <= 31 && fence_gate_slide >= 0){
-            fence_gate_slide -= .1;
+            fence_gate_slide -= .3;
         }
 
     }
@@ -2148,28 +2179,28 @@ void animate()
     if(train_switch ==0 )
     {
        if(train_movement <= 20.5 ){
-            train_movement += .1;
-            train_wheel_movement -=1;
+            train_movement += .3;
+            train_wheel_movement -=3;
         }
     }
 
     if(train_gate_switch ==0 )
     {
        if(train_gate_movement > -90.0 ){
-            train_gate_movement -= .1;
+            train_gate_movement -= .3;
         }
     }
 
     if(train_gate_switch ==1 )
     {
        if(train_gate_movement < 0.0 ){
-            train_gate_movement += .1;
+            train_gate_movement += .3;
         }
     }
 
     if(ferris_wheel_switch ==1 )
     {
-        ferris_wheel_movement += .1;
+        ferris_wheel_movement += .3;
 
     }
 
